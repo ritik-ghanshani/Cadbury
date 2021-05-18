@@ -22,5 +22,5 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWD
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag notion-buddy:$(date +%s)
-    - name: Docker Push
+    - name: Docker push
       run: docker push ${{secrets.DOCKER_USER}}/notion-buddy
