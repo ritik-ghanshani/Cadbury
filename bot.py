@@ -35,6 +35,9 @@ async def message(ctx):
 async def _hello(ctx: SlashContext):
     await ctx.send(content="never gonna let you down, never gonna run around")
 
+@client.event
+async def on_message(message):
+    await message.channel.send(message.content)
 
 bot.run(TOKEN)
 #client.run(TOKEN)
