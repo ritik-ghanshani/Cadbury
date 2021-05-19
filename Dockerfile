@@ -11,6 +11,9 @@ FROM arm32v7/python:3.8
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
+ARG DISCORD_TOKEN
+ENV DISCORD_TOKEN=${DISCORD_TOKEN}
+
 COPY . /app
 WORKDIR /app
 
