@@ -16,7 +16,7 @@ slash = SlashCommand(bot, sync_commands=True)
 @client.event
 async def on_ready():
     #await client.guilds[0].text_channels[-1].send(f'{client.user.name} has connected to Discord!')
-    print(f'{bot.user.name} has connected to Discord!')
+    print(f'{client.user.name} has connected to Discord!')
 
 @client.event
 async def on_member_join(member):
@@ -37,6 +37,8 @@ async def _hello(ctx: SlashContext):
 
 @client.event
 async def on_message(message):
+    if message.author == client.user:
+        return
     await message.channel.send(message.content)
 
 bot.run(TOKEN)
