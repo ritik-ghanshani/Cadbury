@@ -5,7 +5,7 @@ FROM arm32v7/python:3.8
 # ENV PYTHONDONTWRITEBYTECODE=1
 
 # # Turns off buffering for easier container logging
-# ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1
 
 # Install pip requirements
 COPY requirements.txt .
