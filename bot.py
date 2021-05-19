@@ -1,4 +1,5 @@
 import os
+import sys
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -12,7 +13,7 @@ slash = SlashCommand(bot, sync_commands=True)
 
 @bot.command(name="hello", help="just echoes back what you said")
 async def message(ctx):
-    print(f'{ctx.message.author.name} said {" ".join(ctx.message.content.split(" ")[1:])}', flush=True)
+    sys.stdout.write(f'{ctx.message.author.name} said {" ".join(ctx.message.content.split(" ")[1:])}', flush=True)
     await ctx.channel.send(" ".join(ctx.message.content.split(" ")[1:]))
     await ctx.channel.send(ctx.message.attachments[0].proxy_url)
 

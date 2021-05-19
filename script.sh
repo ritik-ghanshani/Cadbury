@@ -6,5 +6,5 @@ then
     git pull
     docker stop $(docker ps -a -q)
     docker build . -t robocist/notion-buddy:latest --build-arg "${TOKEN}"
-    docker run robocist/notion-buddy:latest
+    docker run robocist/notion-buddy:latest -t -d -v $(pwd):/tmp  -w /tmp
 fi
