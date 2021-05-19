@@ -10,7 +10,7 @@ TOKEN = os.environ['DISCORD_TOKEN']
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
 
-@bot.command(name="hello")
+@bot.command(name="hello", help="just echoes back what you said")
 async def message(ctx):
     print(f'{ctx.message.author.name} said {" ".join(ctx.message.content.split(" ")[1:])}', flush=True)
     await ctx.channel.send(" ".join(ctx.message.content.split(" ")[1:]))
