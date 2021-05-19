@@ -26,8 +26,10 @@ async def on_member_join(member):
     )
 
 @bot.command(name="hello")
-async def message(message):
-    await message.channel.send(" ".join(message.message.content.split(" ")[1:]))
+async def message(ctx):
+    print(f'{ctx.message.author.name} said {" ".join(ctx.message.content.split(" ")[1:])}', flush=True)
+    await ctx.channel.send(" ".join(ctx.message.content.split(" ")[1:]))
+    await ctx.channel.send(ctx.message.attachments[0].proxy_url)
 
 @slash.slash(name="hello")
 async def _hello(ctx: SlashContext):
