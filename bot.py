@@ -15,10 +15,12 @@ slash = SlashCommand(bot, sync_commands=True)
 async def message(ctx):
     print(f'{ctx.message.author.name} said {" ".join(ctx.message.content.split(" ")[1:])}', flush=True)
     await ctx.channel.send(" ".join(ctx.message.content.split(" ")[1:]))
-    await ctx.channel.send(ctx.message.attachments[0].proxy_url)
+    await ctx.channel.send(content=ctx.message.attachments[0].proxy_url, tts=True)
 
 @slash.slash(name="hello")
 async def _hello(ctx: SlashContext):
-    await ctx.send(content="never gonna let you down, never gonna run around")
+    print(f'{ctx.message.author.name} said {" ".join(ctx.message.content.split(" ")[1:])}', flush=True)
+    await ctx.channel.send(" ".join(ctx.message.content.split(" ")[1:]))
+    await ctx.channel.send(content=ctx.message.attachments[0].proxy_url, tts=True)
 
 bot.run(TOKEN)
