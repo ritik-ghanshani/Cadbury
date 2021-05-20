@@ -16,7 +16,14 @@ async def message(ctx):
     print(f'{ctx.message.author.name} said {" ".join(ctx.message.content.split(" ")[1:])}', flush=True)
     await ctx.channel.send(" ".join(ctx.message.content.split(" ")[1:]), tts=True)
 
-@slash.slash(name="hello")
+@slash.slash(name="hello", description="just echoes back what you said", options= [
+    {
+      "name": "Message",
+      "description": "type your message here",
+      "type": 3,
+      "required": "true"
+    }
+  ])
 async def _hello(ctx: SlashContext):
     print(f'{ctx.message.author.name} said {" ".join(ctx.message.content.split(" ")[1:])}', flush=True)
     await ctx.channel.send(" ".join(ctx.message.content.split(" ")[1:]), tts=True)
