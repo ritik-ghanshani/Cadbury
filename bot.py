@@ -1,9 +1,11 @@
 import os
 import sys
 import discord
+import time
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord_slash import SlashCommand, SlashContext
+from discord_slash.utils.manage_commands import create_option
 
 load_dotenv()
 TOKEN = os.environ['DISCORD_TOKEN']
@@ -18,14 +20,14 @@ async def message(ctx):
 
 @slash.slash(name="hello", description="just echoes back what you said", options= [
     create_option(
-      name= "Message",
+      name= "content",
       description= "type your message here",
-      type= 3,
-      required="true"
+      option_type= 3,
+      required=True
     )
   ])
-async def _hello(ctx: SlashContext):
-    print(f'{ctx.message.author.name} said {" ".join(ctx.message.content.split(" ")[1:])}', flush=True)
-    await ctx.channel.send(" ".join(ctx.message.content.split(" ")[1:]), tts=False)
+async def _hello(ctx: SlashContext, content: str):
+    print(f'{ctx.author.name} said {ctx.args[0]}', flush=True)
+    await ctx.send(ctx.args[0], tts=False)
 
 bot.run(TOKEN)
