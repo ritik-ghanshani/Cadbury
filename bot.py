@@ -2,13 +2,21 @@ import os
 import sys
 import discord
 import time
+from pprint import pprint
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord_slash import SlashCommand, SlashContext
 from discord_slash.utils.manage_commands import create_option
+from pymongo import MongoClient
 
 load_dotenv()
 TOKEN = os.environ['DISCORD_TOKEN']
+password = os.environ['MONGODB_PASSWD']
+
+
+client = MongoClient(f'mongodb+srv://ritik:{password}@cadburycluster.oxq3b.mongodb.net/CadburyDB.Cadbury?retryWrites=true&w=majority')
+db = client['CadburyDB']['Cadbury']
+
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
