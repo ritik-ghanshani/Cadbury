@@ -2,5 +2,4 @@
 discord.py
 python-dotenv
 discord-py-slash-command
-pymongo
-dnspython
+psycopg2
