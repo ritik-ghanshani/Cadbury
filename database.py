@@ -1,7 +1,9 @@
 import os
 import psycopg2
+from psycopg2.extensions import register_adapter
 import config
 from dotenv import load_dotenv
+from Task import Task, adapt_task
 
 try:
     load_dotenv()
@@ -18,34 +20,33 @@ except Exception as e:
     print("Could not connect to database.", flush=True)
     exit()
 
+register_adapter(Task, adapt_task)
+
 def create_tables():
-    execute(f"CREATE TABLE IF NOT EXISTS Tasks {config.TASK_TABLE};")
+    execute(f"CREATE TABLE IF NOT EXISTS Tasks %s ;", config.TASK_TABLE)
 
-def add_task(class_name, description, due_date, due_time, links, name):
-    command = f"INSERT INTO Tasks{config.TASK_COLUMNS} VALUES ('{class_name}', '{description}', '{due_date}', '{due_time}', '{links}', '{name}');"
-    execute(command)
-
+def add_task(task):
+    command = f"INSERT INTO Tasks{config.TASK_COLUMNS} VALUES %s ;"
+    execute(command, task)
 
 def show_tasks_by_user(name):
-    tasks = execute_and_return(f"SELECT * FROM Tasks WHERE created_by='{name}';")
+    return execute_and_return(f"SELECT * FROM Tasks WHERE created_by=%s;", name)
 
-    
-
-def execute(sql_command):
+def execute(sql_command, args):
     with conn.cursor() as cur:
         try:
-            cur.execute(sql_command)
+            cur.execute(sql_command, (args,))
             conn.commit()
         except Exception as e:
-            print(f"Error: {e}", flush=True)
+            print(f"Error in {execute.__name__}: {e}", flush=True)
             print("Command failed.", flush=True)
 
-def execute_and_return(sql_command):
+def execute_and_return(sql_command, args):
     with conn.cursor() as cur:
         try:
-            cur.execute(sql_command)
+            cur.execute(sql_command, (args,))
             return cur.fetchall()
             conn.commit()
         except Exception as e:
-            print(f"Error: {e}", flush=True)
+            print(f"Error: in {execute_and_return.__name__} : {e}", flush=True)
             print("Command failed.", flush=True)
