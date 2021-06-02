@@ -79,8 +79,7 @@ async def _show_tasks(ctx: SlashContext):
       if len(tasks) == 0:
         await ctx.send(f'{ctx.author.name} has no tasks.')
       else:
-        taskObjs = []
-        [Task(x[0], x[1], x[2], x[3], x[4], x[5]) for x in tasks]
+        taskObjs = [str(Task(x[0], x[1], x[2], x[3], x[4], x[5])) for x in tasks]
         await ctx.send("\n".join(taskObjs))
     except Exception as e:
       print(f"Error: {e}", flush=True)

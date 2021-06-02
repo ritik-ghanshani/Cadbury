@@ -14,7 +14,7 @@ def add_task(task):
     execute(command, task)
 
 def show_tasks_by_user(name):
-    return execute_and_return(f"SELECT * FROM Tasks WHERE created_by=%s;", name)
+    return execute_and_return("SELECT * FROM Tasks WHERE created_by=%s;", name)
 
 def execute(sql_command, args):
     with conn.cursor() as cur:
@@ -29,8 +29,8 @@ def execute_and_return(sql_command, args):
     with conn.cursor() as cur:
         try:
             cur.execute(sql_command, (args,))
-            return cur.fetchall()
             conn.commit()
+            return cur.fetchall()
         except Exception as e:
             print(f"Error: in {execute_and_return.__name__} : {e}", flush=True)
             print("Command failed.", flush=True)

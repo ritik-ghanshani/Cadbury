@@ -1,25 +1,28 @@
 from helper import date_handler, link_handler
 from psycopg2.extensions import adapt, AsIs
 
-class Task(object):
-    def __init__(self, Course, Description, Due_date, Due_time, Links, Created_by):
+class Task:
+    def __init__(self, course, description, due_date, due_time, links, created_by):
         super().__init__()
-        self.Course = Course
-        self.Description = Description
-        self.Due_date = date_handler(Due_date)
-        self.Due_time = Due_time
-        self.Links = link_handler(Links)
-        self.Created_by = Created_by
+        self.course = course
+        self.description = description
+        self.due_date = date_handler(due_date)
+        self.due_time = due_time
+        self.links = link_handler(links)
+        self.created_by = created_by
 
     def __repr__(self):
-        return f"({self.Course}, {self.Description}, {self.Due_date}, {self.Due_time}, {self.Links}, {self.Created_by})"
+        return f"({self.course}, {self.description}, {self.due_date}, {self.due_time}, {self.links}, {self.created_by})"
+
+    def __str__(self):
+        return f"{self.course} {self.description} {self.due_date} {self.due_time} {self.links} {self.created_by}"
 
 def adapt_task(task):
-    Course = adapt(task.Course)
-    Description = adapt(task.Description)
-    Due_date = adapt(task.Due_date)
-    Due_time = adapt(task.Due_time)
-    Links = adapt(task.Links)
-    Created_by = adapt(task.Created_by)
-    return AsIs("(%s, %s, %s, %s, %s, %s)" % (Course, Description, Due_date, Due_time, Links, Created_by))
+    course = adapt(task.course)
+    description = adapt(task.description)
+    due_date = adapt(task.due_date)
+    due_time = adapt(task.due_time)
+    links = adapt(task.links)
+    created_by = adapt(task.created_by)
+    return AsIs("(%s, %s, %s, %s, %s, %s)" % (course, description, due_date, due_time, links, created_by))
 
