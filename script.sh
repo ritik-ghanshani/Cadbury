@@ -1,10 +1,10 @@
 #!/bin/sh
 
-cd ~/Projects/NotionBuddy
+cd ~/Projects/Cadbury
 if [[ $(git rev-parse HEAD) != $(git ls-remote $(git rev-parse --abbrev-ref @{u} | \sed 's/\// /g') | cut -f1) ]]
 then
     git pull
     docker stop $(docker ps -a -q)
-    docker build . -t robocist/notion-buddy:latest --build-arg "${TOKEN}"
-    docker run robocist/notion-buddy:latest
+    docker build . -t robocist/cadbury:latest --build-arg "${TOKEN}"
+    docker run robocist/cadbury:latest
 fi
