@@ -1,5 +1,4 @@
 import datetime
-from dateutil.parser import parse
 
 def exception_handler(func):
     def inner_function(*args, **kwargs):
