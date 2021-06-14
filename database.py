@@ -17,6 +17,7 @@ def show_tasks_by_user(name):
     return execute_and_return("SELECT * FROM Tasks WHERE created_by=%s;", name)
 
 def execute(sql_command, args):
+    conn = connect_to_database()
     with conn.cursor() as cur:
         try:
             cur.execute(sql_command, (args,))
@@ -24,8 +25,10 @@ def execute(sql_command, args):
         except Exception as e:
             print(f"Error in {execute.__name__}: {e}", flush=True)
             print("Command failed.", flush=True)
+    conn.close()
 
 def execute_and_return(sql_command, args):
+    conn = connect_to_database()
     with conn.cursor() as cur:
         try:
             cur.execute(sql_command, (args,))
@@ -34,20 +37,22 @@ def execute_and_return(sql_command, args):
         except Exception as e:
             print(f"Error: in {execute_and_return.__name__} : {e}", flush=True)
             print("Command failed.", flush=True)
+    conn.close()
 
+def connect_to_database():
+    try:
+        load_dotenv()
+        HOST = os.environ['HOST']
+        USERNAME = os.environ['USERNAME']
+        PASSWORD = os.environ['PASSWORD']
+        DB_NAME = os.environ['DB_NAME']
+        PORT = os.environ['PORT']
 
-try:
-    load_dotenv()
-    HOST = os.environ['HOST']
-    USERNAME = os.environ['USERNAME']
-    PASSWORD = os.environ['PASSWORD']
-    DB_NAME = os.environ['DB_NAME']
-    PORT = os.environ['PORT']
+        conn = psycopg2.connect(host=HOST, port=PORT, user=USERNAME, password=PASSWORD, database=DB_NAME)
+        create_tables()
+        return conn
 
-    conn = psycopg2.connect(host=HOST, port=PORT, user=USERNAME, password=PASSWORD, database=DB_NAME)
-    create_tables()
-
-except Exception as e:
-    print(f"Error: {e}", flush=True)
-    print("Could not connect to database.", flush=True)
-    exit()
+    except Exception as e:
+        print(f"Error: {e}", flush=True)
+        print("Could not connect to database.", flush=True)
+        exit()
